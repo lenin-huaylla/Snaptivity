@@ -22,7 +22,7 @@ global currentSOD_V := ""   ; w / s
 ; Unified channel (ADDED)
 global currentSOD_All := ""
 
-; Picker GUI state (SOCD toggle)
+; Picker GUI state (Snaptivity toggle)
 global pickerGui := ""
 global statusText := ""
 global goBtn := ""
@@ -167,23 +167,23 @@ UpdateDebugOSD() {
         return
     }
 
-    socdColor  := "00FFFF"   ; cyan
+    SnaptivityColor  := "00FFFF"   ; cyan
     physColor  := "00FF00"   ; green
     idleColor  := "333333"   ; dark gray
 
     if (szodActive) {
         if (splitLanes) {
             ; Split-lane mode
-            hudW.Opt("c" (currentSOD_V = "w" ? socdColor : idleColor))
-            hudS.Opt("c" (currentSOD_V = "s" ? socdColor : idleColor))
-            hudA.Opt("c" (currentSOD_H = "a" ? socdColor : idleColor))
-            hudD.Opt("c" (currentSOD_H = "d" ? socdColor : idleColor))
+            hudW.Opt("c" (currentSOD_V = "w" ? SnaptivityColor : idleColor))
+            hudS.Opt("c" (currentSOD_V = "s" ? SnaptivityColor : idleColor))
+            hudA.Opt("c" (currentSOD_H = "a" ? SnaptivityColor : idleColor))
+            hudD.Opt("c" (currentSOD_H = "d" ? SnaptivityColor : idleColor))
         } else {
             ; Unified-lane mode
-            hudW.Opt("c" (currentSOD_All = "w" ? socdColor : idleColor))
-            hudA.Opt("c" (currentSOD_All = "a" ? socdColor : idleColor))
-            hudS.Opt("c" (currentSOD_All = "s" ? socdColor : idleColor))
-            hudD.Opt("c" (currentSOD_All = "d" ? socdColor : idleColor))
+            hudW.Opt("c" (currentSOD_All = "w" ? SnaptivityColor : idleColor))
+            hudA.Opt("c" (currentSOD_All = "a" ? SnaptivityColor : idleColor))
+            hudS.Opt("c" (currentSOD_All = "s" ? SnaptivityColor : idleColor))
+            hudD.Opt("c" (currentSOD_All = "d" ? SnaptivityColor : idleColor))
         }
     } else {
         ; Physical mode
@@ -196,7 +196,7 @@ UpdateDebugOSD() {
     debugGui.Show("NoActivate x" hudX " y" hudY)
 }
 configDir := A_ScriptDir "\config"
-configFile := configDir "\SOCD.ini"
+configFile := configDir "\Snaptivity.ini"
 
 InitConfig() {
     global configDir, configFile
@@ -205,7 +205,7 @@ InitConfig() {
         DirCreate(configDir)
 
     if !FileExist(configFile) {
-        IniWrite("", configFile, "Keys", "SOCD_Toggle")
+        IniWrite("", configFile, "Keys", "Snaptivity_Toggle")
         IniWrite("", configFile, "Keys", "Menu_Toggle")
         IniWrite(0, configFile, "Settings", "NeutralizeMode")
         IniWrite(1, configFile, "Settings", "SplitLanes")
@@ -221,7 +221,7 @@ InitConfig() {
 SaveConfig() {
     global toggleKey, menuToggleKey, neutralizeMode, splitLanes, debugOverlay, hudX, hudY, keySize, configFile
 
-    IniWrite(toggleKey, configFile, "Keys", "SOCD_Toggle")
+    IniWrite(toggleKey, configFile, "Keys", "Snaptivity_Toggle")
     IniWrite(menuToggleKey, configFile, "Keys", "Menu_Toggle")
     IniWrite(neutralizeMode, configFile, "Settings", "NeutralizeMode")
     IniWrite(splitLanes, configFile, "Settings", "SplitLanes")
@@ -236,7 +236,7 @@ SaveConfig() {
 LoadConfig() {
     global toggleKey, menuToggleKey, neutralizeMode, splitLanes, debugOverlay, hudX, hudY, keySize, configFile
 
-    toggleKey := IniRead(configFile, "Keys", "SOCD_Toggle", "")
+    toggleKey := IniRead(configFile, "Keys", "Snaptivity_Toggle", "")
     menuToggleKey := IniRead(configFile, "Keys", "Menu_Toggle", "")
 
     neutralizeMode := IniRead(configFile, "Settings", "NeutralizeMode", 0)
@@ -253,7 +253,7 @@ LoadConfig() {
 }
 
 ; ======================================================
-; SOCD STATUS OSD (TOP TEXT)
+; Snaptivity STATUS OSD (TOP TEXT)
 ; ======================================================
 
 global osdGui := Gui("+AlwaysOnTop -Caption +ToolWindow +E0x20")
@@ -261,16 +261,16 @@ osdGui.BackColor := "000000"
 WinSetTransColor("000000", osdGui)
 osdGui.SetFont("s13 Bold", "Segoe UI")
 
-global osdText := osdGui.AddText("c00FF00", "SOCD: OFF")
+global osdText := osdGui.AddText("c00FF00", "Snaptivity: OFF")
 
 UpdateOSD() {
     global szodActive, osdGui, osdText
 
     if (szodActive) {
-        osdText.Text := "SOCD: ON"
+        osdText.Text := "Snaptivity: ON"
         osdText.Opt("c00FFFF")
     } else {
-        osdText.Text := "SOCD: OFF"
+        osdText.Text := "Snaptivity: OFF"
         osdText.Opt("cFF3333")
     }
 
@@ -292,7 +292,7 @@ InitConfig()
 if LoadConfig() {
     Hotkey("$" toggleKey, (*) => ToggleSZOD())
     Hotkey("$" menuToggleKey, (*) => ShowMenu())
-    ShowTrayTip("SOCD SCRIPT", "⚡ Config loaded from /config/SOCD.ini", 2000)
+    ShowTrayTip("Snaptivity SCRIPT", "⚡ Config loaded from /config/Snaptivity.ini", 2000)
 } else {
     ShowTogglePicker()
     UpdateDebugOSD()
@@ -316,7 +316,7 @@ if LoadConfig() {
 
 
 ; ======================================================
-; SOCD TOGGLE
+; Snaptivity TOGGLE
 ; ======================================================
 
 ToggleSZOD(*) {
@@ -340,7 +340,7 @@ ToggleSZOD(*) {
 
     ShowTrayTip(
         "SOD SCRIPT",
-        szodActive ? "🟢 SOCD MODE: ACTIVE" : "🔴 SOCD MODE: OFF",
+        szodActive ? "🟢 Snaptivity MODE: ACTIVE" : "🔴 Snaptivity MODE: OFF",
         1200
     )
     UpdateDebugOSD()
@@ -603,7 +603,7 @@ HandleUnifiedSOD(key, isDown) {
 
 
 ; ======================================================
-; SOCD TOGGLE PICKER
+; Snaptivity TOGGLE PICKER
 ; ======================================================
 
 ShowTogglePicker() {
@@ -611,11 +611,11 @@ ShowTogglePicker() {
 
     DisableHotkeys()
 
-    pickerGui := Gui("+AlwaysOnTop", "🎮 SOCD Toggle Key")
+    pickerGui := Gui("+AlwaysOnTop", "🎮 Snaptivity Toggle Key")
     pickerGui.BackColor := "101010"
     pickerGui.SetFont("s11 Bold", "Segoe UI")
 
-    pickerGui.AddText("c00FFFF w300 Center", "PRESS A KEY FOR SOCD TOGGLE")
+    pickerGui.AddText("c00FFFF w300 Center", "PRESS A KEY FOR Snaptivity TOGGLE")
     statusText := pickerGui.AddText("cFFFFFF w300 Center", "No key selected")
 
     goBtn := pickerGui.AddButton("w120 Center Disabled", "CONFIRM")
@@ -673,7 +673,7 @@ SetToggleKey(*) {
     toggleKey := pickedKey
     Hotkey(toggleKey, (*) => ToggleSZOD())
 
-    ShowTrayTip("SOD SCRIPT", "SOCD Toggle set to: " toggleKey, 1500)
+    ShowTrayTip("SOD SCRIPT", "Snaptivity Toggle set to: " toggleKey, 1500)
 
     pickerGui.Destroy()
 
@@ -768,13 +768,17 @@ ShowMenu() {
     global trayTipsEnabled, snappyMode, overrideMode
     global isResettingKey
 
-    menu := Gui("+AlwaysOnTop", "🎮 SOCD CONTROL PANEL")
+    menu := Gui("+AlwaysOnTop -Caption +ToolWindow")
     menu.BackColor := "0B0F1A"
     menu.SetFont("s11 Bold", "Segoe UI")
 
+    ; ===== CUSTOM GAMER TITLE BAR (FLOW SAFE) =====
+    titleBar := menu.AddText("w300 h30 Center c00FFFF", "🎮 Snaptivity CONTROL PANEL")
+    titleBar.SetFont("s11 Bold")
+
     ; 🔁 REBIND BUTTONS
-    btnRebindSOCD := menu.AddButton("w300 h32", "🔁 Reselect SOCD Toggle Key")
-    btnRebindSOCD.OnEvent("Click", (*) => (
+    btnRebindSnaptivity := menu.AddButton("w300 h32", "🔁 Reselect Snaptivity Toggle Key")
+    btnRebindSnaptivity.OnEvent("Click", (*) => (
         menu.Destroy(),
         ShowTogglePicker()
         isResettingKey := true
@@ -815,7 +819,7 @@ ShowMenu() {
     ))
 
     ; Neutralize / Lock winner
-    cbNeutral := menu.AddCheckbox("c00FFAA w300", "🔥 Lock Winner Opposites (W+S / A+D)")
+    global cbNeutral := menu.AddCheckbox("c00FFAA w300", "🔥 Lock Winner Opposites (W+S / A+D)")
     cbNeutral.Value := neutralizeMode
     cbNeutral.OnEvent("Click", (*) => neutralizeMode := cbNeutral.Value)
 
@@ -848,11 +852,25 @@ ShowMenu() {
     ; SHOW MENU FIRST
     menu.Show("AutoSize Center")
 
+    ; ===== CLOSE BUTTON (ADD LAST SO IT DOESN’T BREAK FLOW) =====
+    titleBar.GetPos(&tx, &ty, &tw, &th)
+
+    btnClose := menu.AddButton(
+        "x" (300 - 10 - 6) " y" 8 " w30 h28",
+        "✖"
+    )
+
+    btnClose.Opt("BackgroundAA3333 cFFFFFF")
+    btnClose.OnEvent("Click", (*) => (
+    menu.Destroy()
+    ))
+
+
     ; =========================
     ; TOOLTIPS
     ; =========================
 
-    AttachToolTip(btnRebindSOCD, "Change the key used to toggle SOCD on and off.")
+    AttachToolTip(btnRebindSnaptivity, "Change the key used to toggle Snaptivity on and off.")
     AttachToolTip(btnRebindMenu, "Change the key used to open this control panel.")
     AttachToolTip(btnHud, "Move and resize the WASD HUD overlay.")
 
@@ -974,7 +992,8 @@ StartHudAdjust() {
     ShowTrayTip("HUD EDIT MODE", "Use OSD instructions to adjust HUD", 1500)
 }
 OverrideModeChanged(ctrl, *) {
-    global overrideMode
+    global overrideMode, cbNeutral, neutralizeMode
+
     overrideMode := ctrl.Value
 
     modes := Map(
@@ -984,8 +1003,22 @@ OverrideModeChanged(ctrl, *) {
     )
 
     ShowTrayTip("OVERRIDE MODE", "Mode set to: " modes[overrideMode], 1500)
+
+    ; 💀 Logic lock: Disable Mode kills Lock Winner
+    if (overrideMode = 3) {
+        neutralizeMode := false
+        cbNeutral.Value := 0
+        cbNeutral.Enabled := false
+        cbNeutral.Opt("c666666")   ; grey it
+        ShowTrayTip("LOGIC FIX", "Lock Winner disabled (not valid in Disable Mode)", 1500)
+    } else {
+        cbNeutral.Enabled := true
+        cbNeutral.Opt("c00FFAA")   ; restore color
+    }
 }
-ShowTrayTip(title, text, time := 1500) {
+
+
+ShowTrayTip(title, text, time := 800) {
     global trayTipsEnabled
     if (trayTipsEnabled)
         TrayTip(title, text, time)
