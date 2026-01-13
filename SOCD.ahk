@@ -1,4 +1,4 @@
-﻿#Requires AutoHotkey v2.0
+#Requires AutoHotkey v2.0
 #SingleInstance Force
 #UseHook
 
@@ -38,7 +38,7 @@ global menuPickedKey := ""
 global isResettingKey := false
 
 ;OSD helper (Universal)
-global editOsdGui := Gui("+AlwaysOnTop -Caption +ToolWindow")
+global editOsdGui := Gui("+AlwaysOnTop -Caption +ToolWindow +E0x20")
 editOsdGui.BackColor := "000000"
 WinSetTransColor("000000", editOsdGui)
 editOsdGui.SetFont("s12 Bold", "Segoe UI")
@@ -125,7 +125,7 @@ fontScale := 0.45
 keySize := 46
 gap := 8
 
-global debugGui := Gui("+AlwaysOnTop -Caption +ToolWindow")
+global debugGui := Gui("+AlwaysOnTop -Caption +ToolWindow +E0x20")
 debugGui.BackColor := "000000"
 WinSetTransColor("000000", debugGui)
 debugGui.SetFont("s" Round(keySize * fontScale) " Bold", "Segoe UI")
@@ -256,7 +256,7 @@ LoadConfig() {
 ; SOCD STATUS OSD (TOP TEXT)
 ; ======================================================
 
-global osdGui := Gui("+AlwaysOnTop -Caption +ToolWindow")
+global osdGui := Gui("+AlwaysOnTop -Caption +ToolWindow +E0x20")
 osdGui.BackColor := "000000"
 WinSetTransColor("000000", osdGui)
 osdGui.SetFont("s13 Bold", "Segoe UI")
@@ -828,7 +828,6 @@ ShowMenu() {
     cbDebug.OnEvent("Click", (*) => (
         debugOverlay := cbDebug.Value,
         UpdateDebugOSD()
-        debugOverlay ? ShowStatusOSD("Status Ready") : editOsdGui.Hide()
         SaveConfig()
     ))
 
