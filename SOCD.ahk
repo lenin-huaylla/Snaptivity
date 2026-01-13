@@ -390,33 +390,30 @@ HandleSOD_V(key, isDown) {
 ; SPLIT H
 ; =========================
 HandleSplitH(key, isDown) {
-    global physicalKeys, currentSOD_H, overrideMode
+    global physicalKeys, currentSOD_H, overrideMode, neutralizeMode
 
     opp := (key = "a") ? "d" : "a"
 
-    if ( (snappyMode && physicalKeys[key] && physicalKeys[opp])     
-    || (!snappyMode && isDown && physicalKeys[opp]) ) {
+    ; Detect conflict FIRST
+    if (physicalKeys[key] && physicalKeys[opp]) {
 
-
-        ; 1 = Last input wins
-        if (overrideMode = 1) {
-            if (isDown) {
-                if (currentSOD_H != "")
-                    Send("{" currentSOD_H " up}")
-                currentSOD_H := key
-                Send("{" key " down}")
-            }
+        ; === LAST INPUT WINS ===
+        if (overrideMode = 1 && isDown) {
+            if (currentSOD_H != "")
+                Send("{" currentSOD_H " up}")
+            currentSOD_H := key
+            Send("{" key " down}")
+            UpdateDebugOSD()
+            return
         }
 
-        ; 2 = First input wins
-        else if (overrideMode = 2) {
-            if (currentSOD_H != "") {
-                UpdateDebugOSD()
-                return
-            }
+        else if (overrideMode = 2) { ; First input wins
+        ; Force-release the loser so OS doesn't keep it pressed
+            Send("{" key " up}")
+            UpdateDebugOSD()
+            return
         }
-
-        ; 3 = Disable on override
+        ; === DISABLE BOTH ===
         else if (overrideMode = 3) {
             if (currentSOD_H != "") {
                 Send("{" currentSOD_H " up}")
@@ -425,12 +422,15 @@ HandleSplitH(key, isDown) {
             UpdateDebugOSD()
             return
         }
+    }
 
+    ; === WINNER LOCK (your special mode) ===
+    if (neutralizeMode && currentSOD_H != "" && isDown && key != currentSOD_H) {
         UpdateDebugOSD()
         return
     }
 
-    ; NORMAL behavior
+    ; === NORMAL FLOW ===
     if (isDown) {
         if (currentSOD_H != key) {
             if (currentSOD_H != "")
@@ -442,14 +442,6 @@ HandleSplitH(key, isDown) {
         if (currentSOD_H == key) {
             Send("{" key " up}")
             currentSOD_H := ""
-
-            for k in ["a","d"] {
-                if (physicalKeys[k]) {
-                    currentSOD_H := k
-                    Send("{" k " down}")
-                    break
-                }
-            }
         }
     }
 
@@ -457,37 +449,31 @@ HandleSplitH(key, isDown) {
 }
 
 
+
 ; =========================
 ; SPLIT V
 ; =========================
 HandleSplitV(key, isDown) {
-    global physicalKeys, currentSOD_V, overrideMode
+    global physicalKeys, currentSOD_V, overrideMode, neutralizeMode
 
     opp := (key = "w") ? "s" : "w"
 
-    if ( (snappyMode && physicalKeys[key] && physicalKeys[opp]) 
-    || (!snappyMode && isDown && physicalKeys[opp]) ) {
+    if (physicalKeys[key] && physicalKeys[opp]) {
 
-
-        ; 1 = Last input wins
-        if (overrideMode = 1) {
-            if (isDown) {
-                if (currentSOD_V != "")
-                    Send("{" currentSOD_V " up}")
-                currentSOD_V := key
-                Send("{" key " down}")
-            }
+        if (overrideMode = 1 && isDown) {
+            if (currentSOD_V != "")
+                Send("{" currentSOD_V " up}")
+            currentSOD_V := key
+            Send("{" key " down}")
+            UpdateDebugOSD()
+            return
         }
-
-        ; 2 = First input wins
         else if (overrideMode = 2) {
-            if (currentSOD_V != "") {
-                UpdateDebugOSD()
-                return
-            }
+            Send("{" key " up}")
+            UpdateDebugOSD()
+        return
         }
 
-        ; 3 = Disable on override
         else if (overrideMode = 3) {
             if (currentSOD_V != "") {
                 Send("{" currentSOD_V " up}")
@@ -496,12 +482,13 @@ HandleSplitV(key, isDown) {
             UpdateDebugOSD()
             return
         }
+    }
 
+    if (neutralizeMode && currentSOD_V != "" && isDown && key != currentSOD_V) {
         UpdateDebugOSD()
         return
     }
 
-    ; NORMAL behavior
     if (isDown) {
         if (currentSOD_V != key) {
             if (currentSOD_V != "")
@@ -513,14 +500,6 @@ HandleSplitV(key, isDown) {
         if (currentSOD_V == key) {
             Send("{" key " up}")
             currentSOD_V := ""
-
-            for k in ["w","s"] {
-                if (physicalKeys[k]) {
-                    currentSOD_V := k
-                    Send("{" k " down}")
-                    break
-                }
-            }
         }
     }
 
@@ -528,37 +507,31 @@ HandleSplitV(key, isDown) {
 }
 
 
+
 ; =========================
 ; UNIFIED
 ; =========================
 HandleUnifiedSOD(key, isDown) {
-    global currentSOD_All, physicalKeys, overrideMode
+    global currentSOD_All, physicalKeys, overrideMode, neutralizeMode
 
     opposites := Map("w","s","s","w","a","d","d","a")
     opp := opposites[key]
 
-    if ( (snappyMode && physicalKeys[key] && physicalKeys[opp]) 
-    || (!snappyMode && isDown && physicalKeys[opp]) ) {
+    if (physicalKeys[key] && physicalKeys[opp]) {
 
-        ; 1 = Last input wins
-        if (overrideMode = 1) {
-            if (isDown) {
-                if (currentSOD_All != "")
-                    Send("{" currentSOD_All " up}")
-                currentSOD_All := key
-                Send("{" key " down}")
-            }
+        if (overrideMode = 1 && isDown) {
+            if (currentSOD_All != "")
+                Send("{" currentSOD_All " up}")
+            currentSOD_All := key
+            Send("{" key " down}")
+            UpdateDebugOSD()
+            return
         }
-
-        ; 2 = First input wins
         else if (overrideMode = 2) {
-            if (currentSOD_All != "") {
-                UpdateDebugOSD()
-                return
-            }
+            Send("{" key " up}")
+            UpdateDebugOSD()
+            return
         }
-
-        ; 3 = Disable on override
         else if (overrideMode = 3) {
             if (currentSOD_All != "") {
                 Send("{" currentSOD_All " up}")
@@ -567,12 +540,13 @@ HandleUnifiedSOD(key, isDown) {
             UpdateDebugOSD()
             return
         }
+    }
 
+    if (neutralizeMode && currentSOD_All != "" && isDown && key != currentSOD_All) {
         UpdateDebugOSD()
         return
     }
 
-    ; NORMAL behavior
     if (isDown) {
         if (currentSOD_All != key) {
             if (currentSOD_All != "")
@@ -584,19 +558,14 @@ HandleUnifiedSOD(key, isDown) {
         if (currentSOD_All == key) {
             Send("{" key " up}")
             currentSOD_All := ""
-
-            for k in ["w","a","s","d"] {
-                if (physicalKeys[k]) {
-                    currentSOD_All := k
-                    Send("{" k " down}")
-                    break
-                }
-            }
         }
     }
 
     UpdateDebugOSD()
 }
+
+
+
 
 
 
