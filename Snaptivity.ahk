@@ -4,6 +4,12 @@
 
 ProcessSetPriority("High")
 
+#SingleInstance Force
+DetectHiddenWindows(true)
+if WinExist("Snaptivity CONTROL PANEL") {
+    WinKill()
+}
+
 
 ; ======================================================
 ; GLOBAL STATE
@@ -33,6 +39,14 @@ global menuPickerGui := ""
 global menuStatusText := ""
 global menuGoBtn := ""
 global menuPickedKey := ""
+
+; Absolute priority keys
+global absUnifiedKey := ""
+global absSplitHKey := ""
+global absSplitVKey := ""
+
+; Menu Gui
+global menuGui := ""
 
 ;special
 global isResettingKey := false
@@ -194,8 +208,6 @@ UpdateDebugOSD() {
     }
 
     debugGui.Show("NoActivate x" hudX " y" hudY)
-    WinSetRedraw(false, debugGui.Hwnd)
-    WinSetRedraw(true,  debugGui.Hwnd) ; Force redraw to see if this fixes Unified SOD debugHUD desync
 }
 configDir := A_ScriptDir "\config"
 configFile := configDir "\Snaptivity.ini"
@@ -217,6 +229,10 @@ InitConfig() {
         IniWrite(46, configFile, "HUD", "KeySize")
         IniWrite(1, configFile, "Settings", "SnappyMode")
         IniWrite(1, configFile, "Settings", "TrayTips")
+        IniWrite("", configFile, "AbsolutePriority", "Unified")
+        IniWrite("", configFile, "AbsolutePriority", "SplitH")
+        IniWrite("", configFile, "AbsolutePriority", "SplitV")
+
     }
 }
 
@@ -233,6 +249,10 @@ SaveConfig() {
     IniWrite(keySize, configFile, "HUD", "KeySize")
     IniWrite(snappyMode, configFile, "Settings", "SnappyMode")
     IniWrite(trayTipsEnabled, configFile, "Settings", "TrayTips")
+    IniWrite(absUnifiedKey, configFile, "AbsolutePriority", "Unified")
+    IniWrite(absSplitHKey,  configFile, "AbsolutePriority", "SplitH")
+    IniWrite(absSplitVKey,  configFile, "AbsolutePriority", "SplitV")
+
 }
 
 LoadConfig() {
@@ -251,6 +271,11 @@ LoadConfig() {
 
     snappyMode := IniRead(configFile, "Settings", "SnappyMode", 1)
     trayTipsEnabled := IniRead(configFile, "Settings", "TrayTips", 1)
+
+    absUnifiedKey := IniRead(configFile, "AbsolutePriority", "Unified", "")
+    absSplitHKey  := IniRead(configFile, "AbsolutePriority", "SplitH", "")
+    absSplitVKey  := IniRead(configFile, "AbsolutePriority", "SplitV", "")
+
     return (toggleKey != "" && menuToggleKey != "")
 }
 
@@ -428,7 +453,21 @@ HandleSplitH(key, isDown) {
             UpdateDebugOSD()
             return
         }
-    }
+        if (overrideMode=4 && absSplitHKey!="" && (key="a"||key="d")) {
+            if (isDown) {
+                if (key=absSplitHKey) {
+                    if (currentSOD_H!="")
+                        Send("{" currentSOD_H " up}")
+                    currentSOD_H:=key
+                    Send("{" key " down}")
+                } else {
+                    Send("{" key " up}")
+                }
+            }
+            UpdateDebugOSD()
+            return
+        }
+    }   
 
     ; ===== Winner lock ONLY if neutralizeMode ON =====
     if (neutralizeMode && currentSOD_H != "" && isDown && key != currentSOD_H) {
@@ -502,6 +541,21 @@ HandleSplitV(key, isDown) {
             UpdateDebugOSD()
             return
         }
+        if (overrideMode=4 && absSplitVKey!="" && (key="w"||key="s")) {
+            if (isDown) {
+                if (key=absSplitVKey) {
+                    if (currentSOD_V!="")
+                        Send("{" currentSOD_V " up}")
+                    currentSOD_V:=key
+                    Send("{" key " down}")
+                } else {
+                    Send("{" key " up}")
+                }
+            }
+            UpdateDebugOSD()
+            return
+        }
+
     }
 
     if (neutralizeMode && currentSOD_V != "" && isDown && key != currentSOD_V) {
@@ -547,11 +601,10 @@ HandleUnifiedSOD(key, isDown) {
     opposites := Map("w","s","s","w","a","d","d","a")
     opp := opposites[key]
 
-    ; ===== Conflict detection (EXACT COPY OF SPLITV LOGIC) =====
+    ; ===== Conflict detection =====
     if ( (snappyMode && physicalKeys[key] && physicalKeys[opp]) 
       || (!snappyMode && isDown && physicalKeys[opp]) ) {
 
-        ; 1 = Last input wins
         if (overrideMode = 1 && isDown) {
             if (currentSOD_All != "")
                 Send("{" currentSOD_All " up}")
@@ -561,7 +614,6 @@ HandleUnifiedSOD(key, isDown) {
             return
         }
 
-        ; 2 = First input wins
         else if (overrideMode = 2) {
             if (neutralizeMode && key != currentSOD_All)
                 Send("{" key " up}")
@@ -569,7 +621,6 @@ HandleUnifiedSOD(key, isDown) {
             return
         }
 
-        ; 3 = Disable both
         else if (overrideMode = 3) {
             if (currentSOD_All != "") {
                 Send("{" currentSOD_All " up}")
@@ -578,6 +629,24 @@ HandleUnifiedSOD(key, isDown) {
             UpdateDebugOSD()
             return
         }
+
+        else if (overrideMode = 4 && absUnifiedKey != "") {
+            if (isDown) {
+                if (key = absUnifiedKey) {
+                    if (currentSOD_All != "" && currentSOD_All != key)
+                        Send("{" currentSOD_All " up}")
+                    currentSOD_All := key
+                    Send("{" key " down}")
+                } else {
+                    Send("{" key " up}")
+                }
+            }
+            UpdateDebugOSD()
+            return
+        }
+
+        UpdateDebugOSD()
+        return
     }
 
     ; ===== Winner lock ONLY if neutralizeMode ON =====
@@ -586,7 +655,7 @@ HandleUnifiedSOD(key, isDown) {
         return
     }
 
-    ; ===== Normal flow (PURE SPLITV STRUCTURE) =====
+    ; ===== Normal flow =====
     if (isDown) {
         if (currentSOD_All != key) {
             if (currentSOD_All != "")
@@ -612,6 +681,7 @@ HandleUnifiedSOD(key, isDown) {
 
     UpdateDebugOSD()
 }
+
 
 
 
@@ -781,7 +851,9 @@ ShowMenu() {
     global trayTipsEnabled, snappyMode, overrideMode
     global isResettingKey
 
-    menu := Gui("+AlwaysOnTop -Caption +ToolWindow")
+    global menuGui := Gui("+AlwaysOnTop -Caption +ToolWindow")
+    menu := menuGui
+
     menu.BackColor := "0B0F1A"
     menu.SetFont("s11 Bold", "Segoe UI")
 
@@ -791,11 +863,11 @@ ShowMenu() {
 
     ; 🔁 REBIND BUTTONS
     btnRebindSnaptivity := menu.AddText(
-        "w300 h32 Center Border Background2222FF c00FFFF",
+        "w300 h32 Center +0x200 Border Background1E90FF cFFFFFF",
         "🔁 Reselect Snaptivity Toggle Key"
     )
 
-    ;Tried to experiment with button styles but AutoHotkey is bad at it WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYY atleast it works so i am gonnna keep it.
+
 
     btnRebindSnaptivity.OnEvent("Click", (*) => (
         menu.Destroy(),
@@ -845,7 +917,12 @@ ShowMenu() {
     ; Split lanes
     cbSplit := menu.AddCheckbox("c00FFFF w300", "🧭 Split Direction Lanes (WS / AD)")
     cbSplit.Value := splitLanes
-    cbSplit.OnEvent("Click", (*) => splitLanes := cbSplit.Value)
+    cbSplit.OnEvent("Click", (*) => (
+        splitLanes := cbSplit.Value,
+        OverrideModeChanged({Value:overrideMode}),
+        SaveConfig()
+    ))
+
 
     ; Debug HUD
     cbDebug := menu.AddCheckbox("c00FF00 w300", "🧪 Show WASD HUD Overlay")
@@ -861,16 +938,40 @@ ShowMenu() {
     ddlOverride := menu.AddDropDownList("w300", [
         "Last input wins",
         "First input wins",
-        "Disable input on override"
+        "Disable input on override",
+        "Absolute Priority Mode"
     ])
     ddlOverride.Value := overrideMode
     ddlOverride.OnEvent("Change", OverrideModeChanged)
 
-    menu.AddText("c888888 w300 Center", "Close window = settings saved")
+    ; =========================
+    ; ABSOLUTE PRIORITY UI (HIDDEN BY DEFAULT)
+    ; =========================
+
+    global absTitle := menu.AddText("cFF66FF w300 Center", "👑 Absolute Priority Settings")
+    absTitle.Visible := false
+
+    global absUnifiedDDL := menu.AddDropDownList("w300", ["None","W","A","S","D"])
+    absUnifiedDDL.Visible := false
+
+    global absSplitHDDL := menu.AddDropDownList("w300", ["None","A","D"])
+    absSplitHDDL.Visible := false
+
+    global absSplitVDDL := menu.AddDropDownList("w300", ["None","W","S"])
+    absSplitVDDL.Visible := false
+
+    ; 🔁 Load saved Absolute Priority values into UI
+    absUnifiedDDL.Text := (absUnifiedKey = "" ? "None" : StrUpper(absUnifiedKey))
+    absSplitHDDL.Text  := (absSplitHKey  = "" ? "None" : StrUpper(absSplitHKey))
+    absSplitVDDL.Text  := (absSplitVKey  = "" ? "None" : StrUpper(absSplitVKey))
+
+
 
     ; SHOW MENU FIRST
     menu.Show("AutoSize Center")
 
+    OverrideModeChanged({Value: overrideMode})
+    
     ; ===== CLOSE BUTTON (ADD LAST SO IT DOESN’T BREAK FLOW) =====
     titleBar.GetPos(&tx, &ty, &tw, &th)
 
@@ -1012,29 +1113,48 @@ StartHudAdjust() {
 }
 OverrideModeChanged(ctrl, *) {
     global overrideMode, cbNeutral, neutralizeMode
+    global absTitle, absUnifiedDDL, absSplitHDDL, absSplitVDDL
+    global splitLanes, menuGui
 
     overrideMode := ctrl.Value
 
     modes := Map(
-        1, "Last Input Wins ⚡",
-        2, "First Input Wins 🧱",
-        3, "Disable On Override ❌"
+        1,"Last Input Wins ⚡",
+        2,"First Input Wins 🧱",
+        3,"Disable On Override ❌",
+        4,"Absolute Priority 👑"
     )
 
-    ShowTrayTip("OVERRIDE MODE", "Mode set to: " modes[overrideMode], 1500)
+    ShowTrayTip("OVERRIDE MODE", "Mode set to: " modes[overrideMode], 1200)
 
-    ; 💀 Logic lock: Disable Mode kills Lock Winner
-    if (overrideMode = 3) {
+    ; Grey-out Lock Winner on Mode 3 and 4
+    if (overrideMode=3 || overrideMode=4) {
         neutralizeMode := false
         cbNeutral.Value := 0
         cbNeutral.Enabled := false
-        cbNeutral.Opt("c666666")   ; grey it
-        ShowTrayTip("LOGIC FIX", "Lock Winner disabled (not valid in Disable Mode)", 1500)
+        cbNeutral.Opt("c666666")
     } else {
         cbNeutral.Enabled := true
-        cbNeutral.Opt("c00FFAA")   ; restore color
+        cbNeutral.Opt("c00FFAA")
     }
+
+    ; 👑 SHOW/HIDE ABSOLUTE PRIORITY CONTROLS
+    showAbs := (overrideMode = 4)
+
+    absTitle.Visible := showAbs
+
+    if (splitLanes) {
+        absUnifiedDDL.Visible := false
+        absSplitHDDL.Visible := showAbs
+        absSplitVDDL.Visible := showAbs
+    } else {
+        absUnifiedDDL.Visible := showAbs
+        absSplitHDDL.Visible := false
+        absSplitVDDL.Visible := false
+    }
+    menuGui.Show("AutoSize")
 }
+
 
 
 ShowTrayTip(title, text, time := 800) {
@@ -1089,3 +1209,5 @@ EnableHotkeys() {
     if (menuToggleKey != "")
         Hotkey(menuToggleKey, "On")
 }
+; does anyone even read this
+; why does copilot keep suggesting me 2... WHATS THE MEANING OF 2!
