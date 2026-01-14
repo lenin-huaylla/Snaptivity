@@ -164,7 +164,7 @@ Useful for:
 - Debugging
 - Validation
 - Demonstrations
-### > Cool fact
+### Cool fact
 > It shows green highlights when SOCD is off then shows blue
 ---
 
@@ -216,6 +216,15 @@ Behavior:
 - Press `A`, then press `D` → output neutralizes and becomes nothing
 - Releasing `D` → `A` is still not active
 - Releasing both `D` and `A` will reset the function
+
+### Absolute Priority Mode
+Always favours a set key over the other. Unique and Customizable of all the modes so far.
+
+Behavior: (Assuming `A` is the set key)
+- Press `A`, then press `D` → `A` is active and `D` gets neutralized
+- Releasing `D` → `A` is unchanged and still active
+- Releasing `A` will make `D` active
+
 
 ---
 
