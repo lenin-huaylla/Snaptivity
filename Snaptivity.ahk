@@ -194,6 +194,8 @@ UpdateDebugOSD() {
     }
 
     debugGui.Show("NoActivate x" hudX " y" hudY)
+    WinSetRedraw(false, debugGui.Hwnd)
+    WinSetRedraw(true,  debugGui.Hwnd) ; Force redraw to see if this fixes Unified SOD debugHUD desync
 }
 configDir := A_ScriptDir "\config"
 configFile := configDir "\Snaptivity.ini"
@@ -383,7 +385,7 @@ HandleSOD_V(key, isDown) {
 }
 
 ; ======================================================
-; SPLIT-LANE HANDLERS (ORIGINAL LOGIC, UNTOUCHED)
+; SPLIT-LANE HANDLERS
 ; ======================================================
 
 ; =========================
@@ -395,7 +397,9 @@ HandleSplitH(key, isDown) {
     opp := (key = "a") ? "d" : "a"
 
     ; ===== Conflict detection =====
-    if (physicalKeys[key] && physicalKeys[opp]) {
+    if ( (snappyMode && physicalKeys[key] && physicalKeys[opp]) ;someone took my 2nd brain away and deleted this line and killed snappy mode aaaaaaaaaaaaaaaaaaaaaa
+    || (!snappyMode && isDown && physicalKeys[opp]) ) {
+
 
         ; 1 = Last input wins
         if (overrideMode = 1 && isDown) {
@@ -470,7 +474,9 @@ HandleSplitV(key, isDown) {
 
     opp := (key = "w") ? "s" : "w"
 
-    if (physicalKeys[key] && physicalKeys[opp]) {
+    if ( (snappyMode && physicalKeys[key] && physicalKeys[opp]) 
+    || (!snappyMode && isDown && physicalKeys[opp]) ) {
+
 
         if (overrideMode = 1 && isDown) {
             if (currentSOD_V != "")
@@ -536,13 +542,16 @@ HandleSplitV(key, isDown) {
 ; UNIFIED
 ; =========================
 HandleUnifiedSOD(key, isDown) {
-    global currentSOD_All, physicalKeys, overrideMode, neutralizeMode
+    global physicalKeys, currentSOD_All, overrideMode, neutralizeMode, snappyMode
 
     opposites := Map("w","s","s","w","a","d","d","a")
     opp := opposites[key]
 
-    if (physicalKeys[key] && physicalKeys[opp]) {
+    ; ===== Conflict detection (EXACT COPY OF SPLITV LOGIC) =====
+    if ( (snappyMode && physicalKeys[key] && physicalKeys[opp]) 
+      || (!snappyMode && isDown && physicalKeys[opp]) ) {
 
+        ; 1 = Last input wins
         if (overrideMode = 1 && isDown) {
             if (currentSOD_All != "")
                 Send("{" currentSOD_All " up}")
@@ -552,6 +561,7 @@ HandleUnifiedSOD(key, isDown) {
             return
         }
 
+        ; 2 = First input wins
         else if (overrideMode = 2) {
             if (neutralizeMode && key != currentSOD_All)
                 Send("{" key " up}")
@@ -559,6 +569,7 @@ HandleUnifiedSOD(key, isDown) {
             return
         }
 
+        ; 3 = Disable both
         else if (overrideMode = 3) {
             if (currentSOD_All != "") {
                 Send("{" currentSOD_All " up}")
@@ -569,11 +580,13 @@ HandleUnifiedSOD(key, isDown) {
         }
     }
 
+    ; ===== Winner lock ONLY if neutralizeMode ON =====
     if (neutralizeMode && currentSOD_All != "" && isDown && key != currentSOD_All) {
         UpdateDebugOSD()
         return
     }
 
+    ; ===== Normal flow (PURE SPLITV STRUCTURE) =====
     if (isDown) {
         if (currentSOD_All != key) {
             if (currentSOD_All != "")
@@ -595,9 +608,9 @@ HandleUnifiedSOD(key, isDown) {
                 }
             }
         }
+    }
 
     UpdateDebugOSD()
-    }
 }
 
 
@@ -777,7 +790,13 @@ ShowMenu() {
     titleBar.SetFont("s11 Bold")
 
     ; 🔁 REBIND BUTTONS
-    btnRebindSnaptivity := menu.AddButton("w300 h32", "🔁 Reselect Snaptivity Toggle Key")
+    btnRebindSnaptivity := menu.AddText(
+        "w300 h32 Center Border Background2222FF c00FFFF",
+        "🔁 Reselect Snaptivity Toggle Key"
+    )
+
+    ;Tried to experiment with button styles but AutoHotkey is bad at it WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYY atleast it works so i am gonnna keep it.
+
     btnRebindSnaptivity.OnEvent("Click", (*) => (
         menu.Destroy(),
         ShowTogglePicker()
