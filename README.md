@@ -401,7 +401,7 @@ Restarting is not nessecary unless changing the ahk script itself
 
 ## License
 
-This project is licensed under the **SOCD-AHK License**.  
+This project is licensed under the **Snaptivity License**.  
 See the `LICENSE` file for full terms.
 
 Summary:
