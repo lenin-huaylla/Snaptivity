@@ -11,12 +11,37 @@ Designed to provide consistent and predictable movement behavior in games and ap
 
 ## Features
 
-- SOCD input resolution
-- AutoHotkey v2 compatible
-- Lightweight and fast
-- Fully configurable
-- Designed for keyboard-based movement systems
-- Non-commercial open-source usage
+### Core Input Engine
+- SOCD input resolution (hardware-style behavior)
+- Unified and split-lane input routing
+- Snap-Tap style input prioritization
+- Absolute Priority Mode
+- Four override resolution algorithms
+- Neutralize Mode and Legacy compatibility mode
+
+### Engine Systems
+- Crash watchdog and auto-recovery
+- RAM state persistence
+- SafeMode vs Unchained Mode
+- Engine overclock pipeline
+- Input rate-limit protection
+
+### Debug & Visualization
+- Real-time WASD HUD
+- Physical vs Logical input layers
+- Latency profiler with sub-millisecond precision
+- Adjustable latency overlay
+- ULTRA debug HUD mode
+
+### Visual Systems
+- Gradient RGB OSD
+- Ncoder Mode (experimental UI behavior)
+- Drag-and-drop HUD positioning
+
+### Testing Tools
+- Integrated crash testing lab
+- Multiple crash simulation types
+- Crash history logging and rotation
 
 ---
 
@@ -34,13 +59,13 @@ https://www.autohotkey.com/
 
 1. Get a release from https://github.com/Ncoder-official/Snaptivity/releases
 2. Unzip the zip file
-3. Run `Compiled\Snaptivity.zip` or `SOCD.ahk` based on your needs
-4. The script will create a `config` folder inside `SOCD.ini`
+3. Run `Compiled\Snaptivity.zip` or `Snaptivity.ahk` based on your needs
+4. The script will create a `config` folder, inside `Snaptivity.ini` and a `Core` folder
 5. Comply with the on-screen instructions to set the script ready (first time only)
 6. Press the SOCD key to toggle and the menu key to open the settings menu
 
 ### Windows SmartScreen Notice
-This app is unsigned, so Windows may show a blue “Protected your PC” screen.
+This app is unsigned, so Windows may (I literally can't get it to show it so it's an actual may like ACTUAL MAY I tried downloading through internet still may) show a blue “Protected your PC” screen.
 Click More info → Run anyway.
 The source code is available and clean.
 You can compile the ahk script itself if you don't trust the exe.
@@ -107,8 +132,6 @@ You have activated **Legacy Input Mode**.
 
 Switch back to normal mode to return to stable, single-character typing.
 
-
-
 ---
 
 # Settings
@@ -147,12 +170,14 @@ Recommended for:
 - Recording
 - Testing
 - Reduced distraction
+- Not being "the guy that queued 50000 traytips and cant open the tray to disable the script"
 
 ---
 
 ## Snappy Input Mode  
 Reduces input lag by capturing physical keys for SOCD detection instead of logically checking IsDown
 
+- TRULY-SNAPPY: Enables `EngineOverclock()` alongside snappy mode to gain maximum performance trading stability
 - ON: More Arcade-style feel on input may introduce lag on Weak Single-Core CPUs try compiling script or disablind it
 - OFF: More intent based detection system generally not recommended for pro play
 
@@ -169,7 +194,7 @@ When enabled:
 
 This closely mimics real SOCD hardware behavior.
 
-### IT WORKS AS OF VERSION 1.0.2 ANYTHING BEFORE = GARBAGE
+### IT WORKS AS OF VERSION 1.0.3 ANYTHING BEFORE = GARBAGE
 
 ---
 
@@ -193,8 +218,9 @@ Useful for:
 - Debugging
 - Validation
 - Demonstrations
-### Cool fact
-> It shows green highlights when SOCD is off then shows blue
+
+### Cool fact v2
+> It now has modes try it and also figure out an easter egg I know you can.
 ---
 
 ## Override Mode  
@@ -238,7 +264,7 @@ Use cases:
 
 ---
 
-### Disable Input on override
+### ❌ Disable Input on override
 Disables the input and neutralizes current keys state until repressed
 
 Behavior:
@@ -246,7 +272,7 @@ Behavior:
 - Releasing `D` → `A` is still not active
 - Releasing both `D` and `A` will reset the function
 
-### Absolute Priority Mode
+### 👑 Absolute Priority Mode
 Always favours a set key over the other. Unique and Customizable of all the modes so far.
 
 Behavior: (Assuming `A` is the set key)
@@ -254,6 +280,107 @@ Behavior: (Assuming `A` is the set key)
 - Releasing `D` → `A` is unchanged and still active
 - Releasing `A` will make `D` active
 
+## ⚙️ Advanced Menu – Engine Control & Danger Zone
+
+[Advanced Menu image LOL LMAO if you read this your browser is bad lmao](Snaptivity-adv-menu.png)
+
+The Advanced Menu exposes low-level engine switches that directly affect how Snaptivity processes input internally.  
+This is **not** for normal usage. These options exist for testing, debugging, stress experiments, and engine behavior research.
+
+If the main menu is “user mode”, the Advanced Menu is **developer mode**.
+
+Entering this menu means:
+- Safety systems can be bypassed
+- Engine stability can drop
+- Input behavior can become unpredictable
+- Crashes are no longer “bugs”, they are expected results
+
+Use with awareness. Use with intention. Use with chaos. 🧠💀
+
+---
+
+### 🧟 Legacy Input Mode (Physical Passthrough)
+
+Enables the old physical input routing pipeline.
+
+Behavior:
+- Physical keyboard input is no longer fully blocked
+- The engine partially loses authority over key flow
+- Typing may produce **triple characters**
+- Input desync is possible
+- SOCD logic becomes less deterministic
+
+Purpose:
+- Backward compatibility
+- Debugging legacy behavior
+- Reproducing old bugs
+- Testing unsafe pipelines
+- Or chaos
+
+This mode is intentionally unstable.
+
+---
+
+### 📊 Engine Latency Profiler
+
+Enables real-time measurement of Snaptivity’s internal execution latency.
+
+When enabled:
+- Each Send operation is timed using high-resolution (`QPC_Now`) counters
+- A latency HUD appears under the WASD overlay
+- You can see:
+  - Last execution time
+  - Average execution time
+  - Number of samples
+
+Purpose:
+- Measure real engine performance
+- Compare Normal vs Snappy vs Truly Snappy
+- Detect spikes and instability
+
+This measures **engine latency**, not network or game latency.
+
+---
+
+### 🛡️ SafeMod (Engine Supervision)
+
+SafeMode enables the engine’s protection systems.
+
+When enabled:
+- Input burst limits are active
+- Crash watchdog is active
+- RAM state saving is enabled
+- Auto-restart on crash is enabled
+- Rate limiting prevents runaway Send storms
+- Unstable with many inputs for now
+
+This is the default and future recommended mode.
+consider turning it off if you see StuckKeys that bypass checkstuck keys
+
+---
+
+### 💥 Crash Lab – Manual Crash Generator
+
+Provides direct access to controlled crash types for testing engine recovery.
+
+Available crash types include:
+- Soft exception
+- Hard process termination
+- Infinite loop freeze
+- Stack overflow
+- Memory exhaustion
+- Invalid DLL calls
+- Timer storms
+- Self-destruct & respawn
+
+Purpose:
+- Validate watchdog behavior
+- Test crash recovery
+- Stress the restart pipeline
+- Validate RAM state restoration
+
+This is not a bug feature.  
+This is an **engine validation system**.
 
 ---
 
@@ -263,7 +390,7 @@ All settings are saved automatically when the control panel is closed.
 
 
 All user-adjustable settings are stored in:
-  `config\SOCD.ini`
+  `config\Snaptivity.ini`
 
 Restarting is not nessecary unless changing the ahk script itself
 
